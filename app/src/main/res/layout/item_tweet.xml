@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical"
+                android:padding="3dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/profileImage"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher"
+        app:riv_border_color="#333333"
+        app:riv_border_width="1dip"
+        app:riv_corner_radius="5dip"
+        android:layout_margin="5dp"
+        app:riv_mutate_background="true"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/userNameTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/profileImage"
+        android:padding="2dp"
+        tools:text="Hello world!!!"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/userNameTwitter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/userNameTv"
+        android:padding="2dp"
+        tools:text="helloworld"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/createdAtTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="24hr"
+        android:gravity="center"
+        android:layout_alignBottom="@id/userNameTwitter"
+        android:textSize="12sp"
+        android:layout_alignParentTop="true"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/bodyTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userNameTv"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/profileImage"
+        android:ellipsize="end"
+        android:maxLength="140"
+        android:padding="2dp"
+        android:autoLink="web"
+        tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,"/>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@id/bodyTv"
+        android:layout_margin="2dp"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/profileImage"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view"
+        android:layout_margin="3dp"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/profileImage"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/replyIv"
+            android:layout_width="24dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/ic_reply"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/reTweetIv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@drawable/ic_retweet"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/retweetCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="4dp"
+                android:layout_toRightOf="@id/reTweetIv"
+                tools:text="100"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/likeIv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_like"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/likeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="4dp"
+                android:layout_toRightOf="@id/likeIv"
+                tools:text="100"/>
+        </RelativeLayout>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/mailIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/ic_mail"/>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
