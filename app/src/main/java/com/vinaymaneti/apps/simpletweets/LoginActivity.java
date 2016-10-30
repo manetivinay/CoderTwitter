@@ -2,9 +2,9 @@ package com.vinaymaneti.apps.simpletweets;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatButton;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 import com.vinaymaneti.apps.simpletweets.activities.TimelineActivity;
@@ -14,7 +14,7 @@ import butterknife.BindView;
 public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 
     @BindView(R.id.loginBtn)
-    AppCompatButton logiButton;
+    Button loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

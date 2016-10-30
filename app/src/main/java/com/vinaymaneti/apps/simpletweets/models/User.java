@@ -65,14 +65,14 @@ import org.json.JSONObject;
 //        }
 
 public class User {
-    //list the attributes
+    //list the attribues
     private String name;
     private long uid;
     private String screenName;
     private String profileImageUrl;
 
 
-    //deserialize the user Json ==> User
+    //deserialize the user josn ==> User
     public static User fromJson(JSONObject jsonObject) {
         User user = new User();
         // here we will extract and fill the values

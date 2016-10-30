@@ -3,6 +3,7 @@ package com.vinaymaneti.apps.simpletweets.adapter;
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,15 +26,51 @@ import butterknife.ButterKnife;
 
 //taking the tweet object and turning them into views to display them in the list
 public class TweetArrayAdapter extends RecyclerView.Adapter<TweetArrayAdapter.TweetViewHolder> {
+    private final int VIEW_ITEM = 1;
+    private final int VIEW_PROG = 0;
 
+    private OnLoadMoreListener onLoadMoreListener;
+    private LinearLayoutManager mLinearLayoutManager;
+
+    private boolean isMoreLoading = false;
+    private int visibleThreshold = 1;
+    int firstVisibleItem, visibleItemCount, totalItemCount;
 
     private final List<Tweet> mTweetList;
     private Context mContext;
+
+    public interface OnLoadMoreListener{
+        void onLoadMore();
+    }
+
+    public void setLinearLayoutManager(LinearLayoutManager linearLayoutManager){
+        this.mLinearLayoutManager=linearLayoutManager;
+    }
+
+//    private LoadMoreTweets mLoadMoreTweetsListener;
+
+
+//    public interface LoadMoreTweets {
+//        void onLoadMore(boolean hasMore);
+//    }
 
     public TweetArrayAdapter(Context context, List<Tweet> tweetList) {
         this.mContext = context;
         this.mTweetList = tweetList;
     }
+
+//    public void setLoadMoreTweetsListener(LoadMoreTweets loadMoreTweetsListener) {
+//        mLoadMoreTweetsListener = loadMoreTweetsListener;
+//    }
+
+//    public void addMoreTweets(List<Tweet> articles) {
+//        int startPosition = mTweetList.size();
+//        mTweetList.addAll(articles);
+//        notifyItemRangeInserted(startPosition, articles.size());
+//    }
+
+
+
 
     @Override
     public TweetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -46,9 +83,9 @@ public class TweetArrayAdapter extends RecyclerView.Adapter<TweetArrayAdapter.Tw
     }
 
     @Override
-    public void onBindViewHolder(TweetViewHolder holder, int position) {
+    public void onBindViewHolder(final TweetViewHolder holder, int position) {
         //get the data model based on the position
-        Tweet tweet = mTweetList.get(position);
+        final Tweet tweet = mTweetList.get(position);
 //        holder.profileImage.setImageResource(android.R.color.transparent);
         Picasso.with(getContext())
                 .load(tweet.getUser().getProfileImageUrl())
@@ -65,6 +102,29 @@ public class TweetArrayAdapter extends RecyclerView.Adapter<TweetArrayAdapter.Tw
         if (tweet.isRetweeted())
             holder.reTweetIv.setImageResource(R.drawable.ic_retweet_enabled);
         holder.userNameTwitter.setText("@" + tweet.getUser().getScreenName());
+        holder.likeIv.setOnClickListener(new View.OnClickListener() {
+            int buttonClickPosition = 0;
+
+            @Override
+            public void onClick(View v) {
+                if (buttonClickPosition == 0) {
+                    holder.likeIv.setImageResource(R.drawable.ic_like_enabled);
+                    buttonClickPosition = 1;
+                    holder.likeCount.setText(String.valueOf(Integer.parseInt(tweet.getFavoriteCount()) + 1));
+                } else {
+                    holder.likeIv.setImageResource(R.drawable.ic_like);
+                    buttonClickPosition = 0;
+                    holder.likeCount.setText(String.valueOf(Integer.parseInt(tweet.getFavoriteCount())));
+                }
+            }
+        });
+
+//        if (mLoadMoreTweetsListener != null && position == mTweetList.size() - 1) {
+//            if (mTweetList != null)
+//                mLoadMoreTweetsListener.onLoadMore(true);
+//            else
+//                mLoadMoreTweetsListener.onLoadMore(false);
+//        }
     }
 
 

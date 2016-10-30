@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
+import com.vinaymaneti.apps.simpletweets.LoginActivity;
 import com.vinaymaneti.apps.simpletweets.R;
 import com.vinaymaneti.apps.simpletweets.utils.AlertNetwork;
 import com.vinaymaneti.apps.simpletweets.utils.ConnectivityReceiver;
@@ -32,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (ConnectivityReceiver.isConnected())
-                    startActivity(new Intent(SplashActivity.this, TimelineActivity.class));
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 else
                     AlertNetwork.networkAlertDialog(SplashActivity.this);
             }

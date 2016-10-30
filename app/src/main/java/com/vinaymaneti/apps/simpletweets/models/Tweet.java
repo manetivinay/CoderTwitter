@@ -123,10 +123,15 @@ public class Tweet {
     private boolean favorited; //if we favourite a tweet, we need to enable
     private boolean retweeted; // if we retweeted a tweet we need to enable show different image
 
+    public Tweet(JSONObject tweetJson) {
+
+
+    }
+
     //Deserialize the json
     // Tweet.fromJson("{...}")  ==> <Tweet>
-    private static Tweet fromJson(JSONObject jsonObject) {
-        Tweet tweet = new Tweet();
+    public static Tweet fromJson(JSONObject jsonObject) {
+        Tweet tweet = new Tweet(jsonObject);
         try {
             tweet.createdAt = jsonObject.getString("created_at");
             tweet.uid = jsonObject.getLong("id");
@@ -185,11 +190,19 @@ public class Tweet {
         return favoriteCount;
     }
 
+    public void setFavoriteCount(String favoriteCount) {
+        this.favoriteCount = favoriteCount;
+    }
+
     public boolean isFavorited() {
         return favorited;
     }
 
     public boolean isRetweeted() {
         return retweeted;
+    }
+
+    public void save() {
+
     }
 }
