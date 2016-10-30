@@ -118,6 +118,10 @@ public class Tweet {
     private User user;
     private String createdAt;
     private String body;
+    private String retweetCount;
+    private String favoriteCount;
+    private boolean favorited; //if we favourite a tweet, we need to enable
+    private boolean retweeted; // if we retweeted a tweet we need to enable show different image
 
     //Deserialize the json
     // Tweet.fromJson("{...}")  ==> <Tweet>
@@ -128,6 +132,10 @@ public class Tweet {
             tweet.uid = jsonObject.getLong("id");
             tweet.body = jsonObject.getString("text");
             tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+            tweet.retweetCount = jsonObject.getString("retweet_count");
+            tweet.favoriteCount = jsonObject.getString("favorite_count");
+            tweet.favorited = jsonObject.getBoolean("favorited");
+            tweet.retweeted = jsonObject.getBoolean("retweeted");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -142,7 +150,7 @@ public class Tweet {
             try {
                 JSONObject tweetJsonObject = jsonArray.getJSONObject(i);
                 Tweet tweet = Tweet.fromJson(tweetJsonObject);
-                if(tweet != null)
+                if (tweet != null)
                     tweets.add(tweet);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -167,5 +175,21 @@ public class Tweet {
 
     public User getUser() {
         return user;
+    }
+
+    public String getRetweetCount() {
+        return retweetCount;
+    }
+
+    public String getFavoriteCount() {
+        return favoriteCount;
+    }
+
+    public boolean isFavorited() {
+        return favorited;
+    }
+
+    public boolean isRetweeted() {
+        return retweeted;
     }
 }

@@ -14,7 +14,7 @@ import butterknife.BindView;
 public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 
     @BindView(R.id.loginBtn)
-    AppCompatButton loginBtn;
+    AppCompatButton logiButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

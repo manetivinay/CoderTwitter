@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:orientation="vertical"
                 android:padding="3dp">
 
@@ -11,12 +11,13 @@
         android:id="@+id/profileImage"
         android:layout_width="45dp"
         android:layout_height="45dp"
+        android:layout_margin="5dp"
+        android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher"
         app:riv_border_color="#333333"
         app:riv_border_width="1dip"
         app:riv_corner_radius="5dip"
-        android:layout_margin="5dp"
         app:riv_mutate_background="true"/>
 
     <android.support.v7.widget.AppCompatTextView
@@ -33,20 +34,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/createdAtTv"
         android:layout_toRightOf="@id/userNameTv"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:padding="2dp"
+        android:textColor="@color/colorDivider"
         tools:text="helloworld"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/createdAtTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:text="24hr"
-        android:gravity="center"
         android:layout_alignBottom="@id/userNameTwitter"
-        android:textSize="12sp"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:text="24hr"
+        android:textSize="12sp"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/bodyTv"
@@ -55,10 +61,11 @@
         android:layout_below="@id/userNameTv"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/profileImage"
+        android:autoLink="all"
+        android:clickable="true"
         android:ellipsize="end"
         android:maxLength="140"
         android:padding="2dp"
-        android:autoLink="web"
         tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,"/>
 
     <View

@@ -1,13 +1,20 @@
 package com.vinaymaneti.apps.simpletweets.activities;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.vinaymaneti.apps.simpletweets.R;
@@ -15,6 +22,8 @@ import com.vinaymaneti.apps.simpletweets.TwitterApplication;
 import com.vinaymaneti.apps.simpletweets.TwitterClient;
 import com.vinaymaneti.apps.simpletweets.adapter.TweetArrayAdapter;
 import com.vinaymaneti.apps.simpletweets.models.Tweet;
+import com.vinaymaneti.apps.simpletweets.utils.ConnectivityReceiver;
+import com.vinaymaneti.apps.simpletweets.utils.DividerItemDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,7 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
-public class TimelineActivity extends AppCompatActivity {
+public class TimelineActivity extends AppCompatActivity implements View.OnClickListener, ConnectivityReceiver.ConnectivityReceiverListener {
     private TweetArrayAdapter mTweetArrayAdapter;
     private List<Tweet> mTweetList;
     private TwitterClient mClient;
@@ -40,6 +49,11 @@ public class TimelineActivity extends AppCompatActivity {
     @BindView(R.id.emptyView)
     AppCompatTextView emptyView;
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,23 +61,35 @@ public class TimelineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeline);
         ButterKnife.bind(this);
         mClient = TwitterApplication.getRestClient();
-        populateTimeLine();
+        //create the List (data source)
+        mTweetList = new ArrayList<>();
+        if (checkConnection())
+            populateTimeLine();
+        else {
+            Toast.makeText(this, "No iNternet", Toast.LENGTH_LONG).show();
+        }
         setUpUiView();
     }
 
 
     private void setUpUiView() {
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("Coder Twitter");
+        mToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         // construct  the adapter from data source
         mTweetArrayAdapter = new TweetArrayAdapter(this, mTweetList);
         //connect adapter to recycler view
         recyclerView.setAdapter(mTweetArrayAdapter);
+        //add divider to each item
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
+        recyclerView.addItemDecoration(itemDecoration);
         //set the layout type for the recycler view
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        fab.setOnClickListener(this);
     }
 
     private void populateTimeLine() {
-        //create the List (data source)
-        mTweetList = new ArrayList<>();
+
         mRelativeLayout.setVisibility(View.VISIBLE);
         mClient.getHomeTimeline(new JsonHttpResponseHandler() {
             //success
@@ -96,5 +122,61 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.d("Error response:-", errorResponse.toString());
             }
         });
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //register connection status listener
+        TwitterApplication.getTwitterApplication().setConnectivityListener(this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+        Intent intent = new Intent(TimelineActivity.this, ComposeActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        moveTaskToBack(true);
+    }
+
+    //Method to manually check connection status
+    private boolean checkConnection() {
+        boolean isConnected = ConnectivityReceiver.isConnected();
+        showSnackBarInternet(isConnected);
+        return isConnected;
+    }
+
+    /**
+     * Callback will be triggered when there is change in
+     * network connection
+     */
+    @Override
+    public void OnNetworkConnectionChanged(boolean isConnected) {
+        showSnackBarInternet(isConnected);
+    }
+
+    private void showSnackBarInternet(boolean isConnected) {
+        String message = null;
+        int color = 0;
+        if (!isConnected) {
+            message = "Sorry, not connected to internet!!";
+            color = Color.RED;
+        } else {
+            message = "Welcome back to Coder Twitter App!!";
+            color = Color.WHITE;
+        }
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.fab), message, Snackbar.LENGTH_LONG);
+
+        View sbView = snackbar.getView();
+        AppCompatTextView textView = (AppCompatTextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(color);
+        snackbar.show();
     }
 }
